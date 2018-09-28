@@ -5,7 +5,7 @@ plugins:
      workflow-aggregator: 2.5
      workflow-job: 2.24
      credentials-binding: 1.16
-     git: 3.9.1
+     git: 3.9.0
      greenballs: 1.15
      configuration-as-code: 1.0
      cloudbees-devoptics-enabler: 0.3
