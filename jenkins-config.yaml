@@ -14,4 +14,13 @@ plugins:
   - id: "default"
     url: "https://updates.jenkins.io/update-center.json"
   - id: "devoptics"
-    url: "http://jenkins-updates.cloudbees.com/update-center/devoptics/update-center.json"
+    url: "http://jenkins-updates.cloudbees.com/update-center/devoptics/update-center.json"  
+  tool:
+    allure:
+      installations:
+      - name: "allure-example"
+        properties:
+        - installSource:
+            installers:
+            - allureCommandlineInstaller:
+                id: "2.7.0"
