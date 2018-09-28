@@ -1,0 +1,106 @@
+plugins:
+  required:
+     sonar: 2.8.1
+     kubernetes: 1.12.4
+     workflow-aggregator: 2.5
+     workflow-job: 2.24
+     credentials-binding: 1.16
+     git: 3.9.1
+     greenballs: 1.15
+     configuration-as-code: 1.0
+     cloudbees-devoptics-enabler: 0.3
+     devoptics: 1.1349
+  sites:
+  - id: "default"
+    url: "https://updates.jenkins.io/update-center.json"
+  - id: "devoptics"
+    url: "http://jenkins-updates.cloudbees.com/update-center/devoptics/update-center.json"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  clouds:
+  - kubernetes:
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent:50000"
+      jenkinsUrl: "http://jenkins:8080"
+      maxRequestsPerHostStr: "32"
+      name: "kubernetes"
+      namespace: "jenkins-project"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "${computer.jnlpmac} ${computer.name}"
+          envVars:
+          - containerEnvVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins:8080"
+          image: "jenkins/jnlp-slave:3.10-1"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "jnlp"
+          resourceLimitCpu: "200m"
+          resourceLimitMemory: "256Mi"
+          resourceRequestCpu: "200m"
+          resourceRequestMemory: "256Mi"
+        label: "jenkins-jenkins-slave"
+        name: "default"
+        nodeUsageMode: NORMAL
+        volumes:
+        - hostPathVolume:
+            hostPath: "/var/run/docker.sock"
+            mountPath: "/var/run/docker.sock"
+        workspaceVolume:
+          emptyDirWorkspaceVolume:
+            memory: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: true
+  disableRememberMe: false
+  mode: NORMAL
+  numExecutors: 0
+  primaryView:
+    all:
+      name: "all"
+  quietPeriod: 5
+  scmCheckoutRetryCount: 0
+  slaveAgentPort: 50000
+  views:
+  - all:
+      name: "all"
+security:
+  remotingCLI:
+    enabled: false
+unclassified:
+  globallibraries:
+    libraries:
+    - defaultVersion: "master"
+      implicit: true
+      name: "hello"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              id: "923675cd-3595-4bdc-a1dc-3c720e626124"
+              remote: "https://github.com/monodot/pipeline-library-demo.git"
+  location:
+    url: "http://jenkins:8080/"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  jdk:
+    defaultProperties:
+    - installSource:
+        installers:
+        - jdkInstaller:
+            acceptLicense: false
+
