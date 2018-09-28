@@ -10,7 +10,6 @@ plugins:
      configuration-as-code: 1.0
      cloudbees-devoptics-enabler: 0.3
      devoptics: 1.1349
-     allure: 2.27.0
   sites:
   - id: "default"
     url: "https://updates.jenkins.io/update-center.json"
